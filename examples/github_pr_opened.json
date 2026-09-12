@@ -1,4 +1,5 @@
 {
+  "action": "opened",
   "repository": {
     "full_name": "octocat/devflow"
   },
@@ -6,4 +7,3 @@
     "number": 42
   }
 }
-

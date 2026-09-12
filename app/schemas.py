@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -15,6 +16,7 @@ class PullRequestPayload(BaseModel):
 
 
 class GitHubWebhookPayload(BaseModel):
+    action: str = Field(min_length=1, max_length=50)
     repository: RepositoryPayload
     pull_request: PullRequestPayload
 
@@ -26,8 +28,16 @@ class TaskRead(BaseModel):
     repository: str
     pr_number: int
     status: TaskStatus
+    github_delivery_id: str | None
+    github_event: str | None
+    github_action: str | None
     created_at: datetime
     updated_at: datetime
+
+
+class WebhookIgnoredResponse(BaseModel):
+    status: Literal["ignored"]
+    reason: str
 
 
 class HealthResponse(BaseModel):
@@ -37,4 +47,3 @@ class HealthResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str
-

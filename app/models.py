@@ -21,10 +21,14 @@ class Task(Base):
     repository: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     pr_number: Mapped[int] = mapped_column(Integer, nullable=False)
     status: Mapped[str] = mapped_column(String(20), nullable=False)
+    github_delivery_id: Mapped[str | None] = mapped_column(
+        String(64), nullable=True, index=True
+    )
+    github_event: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    github_action: Mapped[str | None] = mapped_column(String(50), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
-

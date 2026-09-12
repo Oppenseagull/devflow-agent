@@ -5,7 +5,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
 from app.database import Base, get_db
-from app.main import app
+from app.main import app, settings
+
+TEST_WEBHOOK_SECRET = "test-webhook-secret"
 
 
 @pytest.fixture
@@ -28,7 +30,9 @@ def client(db_session: Session) -> TestClient:
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db
+    original_secret = settings.github_webhook_secret
+    settings.github_webhook_secret = TEST_WEBHOOK_SECRET
     with TestClient(app) as test_client:
         yield test_client
+    settings.github_webhook_secret = original_secret
     app.dependency_overrides.clear()
-

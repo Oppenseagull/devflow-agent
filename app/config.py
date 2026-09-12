@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_name: str = "DevFlow Agent API"
     log_level: str = "INFO"
     database_url: str = "postgresql+psycopg://devflow:devflow@localhost:5432/devflow"
+    github_webhook_secret: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
@@ -14,4 +15,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-
